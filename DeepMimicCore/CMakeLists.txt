@@ -1,0 +1,264 @@
+cmake_minimum_required(VERSION 2.4.3)
+INCLUDE_DIRECTORIES(. anim util scenes sim)
+INCLUDE_DIRECTORIES("${BULLET_INCLUDES}")
+INCLUDE_DIRECTORIES("${BULLET_INCLUDES}/Bullet3Common")
+INCLUDE_DIRECTORIES("${BULLET_INCLUDES}/LinearMath")
+INCLUDE_DIRECTORIES("${BULLET_INCLUDES}/BulletDynamics")
+INCLUDE_DIRECTORIES("${BULLET_INCLUDES}/BulletCollision")
+INCLUDE_DIRECTORIES("${EIGEN_INCLUDES}")
+
+SET(DeepMimicHDRS
+DeepMimicCore.h
+    anim/Shape.h
+    anim/KinCharacter.h
+    anim/Character.h
+    anim/KinTree.h
+    anim/Motion.h
+    util/ArgParser.h
+    util/IndexManager.h
+    util/Trajectory.h
+    util/MathUtil.h
+    util/BVHReader.h
+    util/Rand.h
+    util/FileUtil.h
+    util/Annealer.h
+    util/json/config.h
+    util/json/reader.h
+    util/json/version.h
+    util/json/json_tool.h
+    util/json/features.h
+    util/json/allocator.h
+    util/json/writer.h
+    util/json/assertions.h
+    util/json/forwards.h
+    util/json/value.h
+    util/json/json.h
+    util/json/autolink.h
+    util/Timer.h
+    util/JsonUtil.h
+    util/IndexBuffer.h
+    util/CircularBuffer.h
+    DeepMimicCore.h
+    scenes/SceneBuilder.h
+    scenes/SceneKinChar.h
+    scenes/RLScene.h
+    scenes/RLSceneSimChar.h
+    scenes/SceneSimChar.h
+    scenes/SceneImitate.h
+    scenes/DrawSceneKinChar.h
+    scenes/DrawSceneSimChar.h
+    scenes/DrawSceneImitate.h
+    scenes/DrawRLScene.h
+    scenes/DrawScene.h
+    scenes/Scene.h
+    sim/ExpPDController.h
+    sim/SimCharGeneral.h
+    sim/GroundPlane.h
+    sim/PerturbManager.h
+    sim/Controller.h
+    sim/SimJoint.h
+    sim/SimRigidBody.h
+    sim/ContactManager.h
+    sim/AgentRegistry.h
+    sim/Ground.h
+    sim/SimCharacter.h
+    sim/CtPDController.h
+    sim/PDController.h
+    sim/CtCtrlUtil.h
+    sim/MultiBody.h
+    sim/SimObj.h
+    sim/DeepMimicCharController.h
+    sim/GroundBuilder.h
+    sim/CtVelController.h
+    sim/SimSphere.h
+    sim/SimCapsule.h
+    sim/CtrlBuilder.h
+    sim/SimCylinder.h
+    sim/ObjTracer.h
+    sim/Perturb.h
+    sim/SimBodyLink.h
+    sim/World.h
+    sim/SimBox.h
+    sim/SimCharBuilder.h
+    sim/CtController.h
+    sim/RBDUtil.h
+    sim/SimPlane.h
+    sim/ImpPDController.h
+    sim/SpAlg.h
+    sim/CharController.h
+    sim/SimBodyJoint.h
+    sim/ActionSpace.h
+    sim/RBDModel.h
+    anim/Shape.h
+    anim/KinCharacter.h
+    anim/Character.h
+    anim/KinTree.h
+    anim/Motion.h
+    util/ArgParser.h
+    util/IndexManager.h
+    util/Trajectory.h
+    util/MathUtil.h
+    util/BVHReader.h
+    util/Rand.h
+    util/FileUtil.h
+    util/Annealer.h
+    util/json/config.h
+    util/json/reader.h
+    util/json/version.h
+    util/json/json_tool.h
+    util/json/features.h
+    util/json/allocator.h
+    util/json/writer.h
+    util/json/assertions.h
+    util/json/forwards.h
+    util/json/value.h
+    util/json/json.h
+    util/json/autolink.h
+    util/Timer.h
+    util/JsonUtil.h
+    util/IndexBuffer.h
+    util/CircularBuffer.h
+    DeepMimicCore.h
+    scenes/SceneBuilder.h
+    scenes/SceneKinChar.h
+    scenes/RLScene.h
+    scenes/RLSceneSimChar.h
+    scenes/SceneSimChar.h
+    scenes/SceneImitate.h
+    scenes/DrawSceneKinChar.h
+    scenes/DrawSceneSimChar.h
+    scenes/DrawSceneImitate.h
+    scenes/DrawRLScene.h
+    scenes/DrawScene.h
+    scenes/Scene.h
+    sim/ExpPDController.h
+    sim/SimCharGeneral.h
+    sim/GroundPlane.h
+    sim/PerturbManager.h
+    sim/Controller.h
+    sim/SimJoint.h
+    sim/SimRigidBody.h
+    sim/ContactManager.h
+    sim/AgentRegistry.h
+    sim/Ground.h
+    sim/SimCharacter.h
+    sim/CtPDController.h
+    sim/PDController.h
+    sim/CtCtrlUtil.h
+    sim/MultiBody.h
+    sim/SimObj.h
+    sim/DeepMimicCharController.h
+    sim/GroundBuilder.h
+    sim/CtVelController.h
+    sim/SimSphere.h
+    sim/SimCapsule.h
+    sim/CtrlBuilder.h
+    sim/SimCylinder.h
+    sim/ObjTracer.h
+    sim/Perturb.h
+    sim/SimBodyLink.h
+    sim/World.h
+    sim/SimBox.h
+    sim/SimCharBuilder.h
+    sim/CtController.h
+    sim/RBDUtil.h
+    sim/SimPlane.h
+    sim/ImpPDController.h
+    sim/SpAlg.h
+    sim/CharController.h
+    sim/SimBodyJoint.h
+    sim/ActionSpace.h
+    sim/RBDModel.h)
+
+SET(DeepMimicSRCS
+    DeepMimicCore.cpp
+    anim/Shape.cpp
+    anim/KinTree.cpp
+    anim/Character.cpp
+    anim/Motion.cpp
+    anim/KinCharacter.cpp
+    Main.cpp
+    util/BVHReader.cpp
+    util/FileUtil.cpp
+    util/JsonUtil.cpp
+    util/json/json_writer.cpp
+    util/json/json_value.cpp
+    util/json/json_reader.cpp
+    util/Rand.cpp
+    util/ArgParser.cpp
+    util/Timer.cpp
+    util/Annealer.cpp
+    util/MathUtil.cpp
+    util/IndexManager.cpp
+    util/Trajectory.cpp
+    scenes/DrawSceneSimChar.cpp
+    scenes/SceneKinChar.cpp
+    scenes/RLScene.cpp
+    scenes/DrawSceneImitate.cpp
+    scenes/DrawSceneKinChar.cpp
+    scenes/DrawRLScene.cpp
+    scenes/Scene.cpp
+    scenes/DrawScene.cpp
+    scenes/SceneSimChar.cpp
+    scenes/SceneBuilder.cpp
+    scenes/SceneImitate.cpp
+    scenes/RLSceneSimChar.cpp
+    sim/DeepMimicCharController.cpp
+    sim/SimCylinder.cpp
+    sim/RBDUtil.cpp
+    sim/SimPlane.cpp
+    sim/Ground.cpp
+    sim/SimCharBuilder.cpp
+    sim/World.cpp
+    sim/CtController.cpp
+    sim/CtVelController.cpp
+    sim/CtPDController.cpp
+    sim/ObjTracer.cpp
+    sim/SimCapsule.cpp
+    sim/GroundPlane.cpp
+    sim/AgentRegistry.cpp
+    sim/CtCtrlUtil.cpp
+    sim/SpAlg.cpp
+    sim/SimBodyJoint.cpp
+    sim/RBDModel.cpp
+    sim/PerturbManager.cpp
+    sim/SimBodyLink.cpp
+    sim/CharController.cpp
+    sim/SimBox.cpp
+    sim/SimSphere.cpp
+    sim/MultiBody.cpp
+    sim/Controller.cpp
+    sim/CtrlBuilder.cpp
+    sim/SimCharacter.cpp
+    sim/PDController.cpp
+    sim/ContactManager.cpp
+    sim/ExpPDController.cpp
+    sim/GroundBuilder.cpp
+    sim/SimRigidBody.cpp
+    sim/ImpPDController.cpp
+    sim/SimJoint.cpp
+    sim/SimObj.cpp
+    sim/Perturb.cpp
+    sim/SimCharGeneral.cpp)
+
+ADD_LIBRARY(DeepMimic SHARED ${DeepMimicSRCS})
+
+ADD_LIBRARY(BulletDynamics SHARED IMPORTED)
+SET_PROPERTY(TARGET BulletDynamics PROPERTY IMPORTED_LOCATION
+             ${BULLET_LIBS}/libBulletDynamics.so)
+
+ADD_LIBRARY(BulletCollision SHARED IMPORTED)
+SET_PROPERTY(TARGET BulletCollision PROPERTY IMPORTED_LOCATION
+             ${BULLET_LIBS}/libBulletCollision.so)
+
+ADD_LIBRARY(LinearMath SHARED IMPORTED)
+SET_PROPERTY(TARGET LinearMath PROPERTY IMPORTED_LOCATION
+             ${BULLET_LIBS}/libLinearMath.so)
+
+ADD_LIBRARY(math SHARED IMPORTED)
+SET_PROPERTY(TARGET math PROPERTY IMPORTED_LOCATION
+             ${SYSTEM_LIBS}/libm.so)
+
+TARGET_LINK_LIBRARIES(DeepMimic BulletDynamics BulletCollision LinearMath m)
+
+
