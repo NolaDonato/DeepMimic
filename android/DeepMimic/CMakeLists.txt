@@ -1,9 +1,15 @@
-cmake_minimum_required(VERSION 2.4.3)
+cmake_minimum_required(VERSION 3.6)
+if(COMMAND cmake_policy)
+    cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)
 PROJECT(deepmimic C CXX)
 string(TOLOWER ${CMAKE_BUILD_TYPE} buildType)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/libs/${buildType}/${CMAKE_ANDROID_ARCH_ABI}")
-set(BULLET_LIBS "${BULLET_LIBS}/${CMAKE_ANDROID_ARCH_ABI}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/libs/${buildType}/${ANDROID_ABI}")
+set(BULLET_LIBS "${BULLET_LIBS}/${ANDROID_ABI}")
 set(BULLET_INCLUDES "${BULLET_INCLUDES}")
+set(EIGEN_DIR "${EIGEN_DIR}")
+INCLUDE_DIRECTORIES("includes")
+LINK_DIRECTORIES("external_libs")
 
 SUBDIRS(../../DeepMimicCore)
 

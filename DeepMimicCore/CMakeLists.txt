@@ -5,7 +5,8 @@ INCLUDE_DIRECTORIES("${BULLET_INCLUDES}/Bullet3Common")
 INCLUDE_DIRECTORIES("${BULLET_INCLUDES}/LinearMath")
 INCLUDE_DIRECTORIES("${BULLET_INCLUDES}/BulletDynamics")
 INCLUDE_DIRECTORIES("${BULLET_INCLUDES}/BulletCollision")
-INCLUDE_DIRECTORIES("${EIGEN_INCLUDES}")
+INCLUDE_DIRECTORIES("${EIGEN_DIR}")
+
 
 SET(DeepMimicHDRS
 DeepMimicCore.h
@@ -177,7 +178,7 @@ SET(DeepMimicSRCS
     anim/Character.cpp
     anim/Motion.cpp
     anim/KinCharacter.cpp
-    Main.cpp
+#    Main.cpp
     util/BVHReader.cpp
     util/FileUtil.cpp
     util/JsonUtil.cpp
@@ -191,14 +192,14 @@ SET(DeepMimicSRCS
     util/MathUtil.cpp
     util/IndexManager.cpp
     util/Trajectory.cpp
-    scenes/DrawSceneSimChar.cpp
+#    scenes/DrawSceneSimChar.cpp
     scenes/SceneKinChar.cpp
     scenes/RLScene.cpp
-    scenes/DrawSceneImitate.cpp
-    scenes/DrawSceneKinChar.cpp
-    scenes/DrawRLScene.cpp
+#    scenes/DrawSceneImitate.cpp
+#    scenes/DrawSceneKinChar.cpp
+#    scenes/DrawRLScene.cpp
     scenes/Scene.cpp
-    scenes/DrawScene.cpp
+#    scenes/DrawScene.cpp
     scenes/SceneSimChar.cpp
     scenes/SceneBuilder.cpp
     scenes/SceneImitate.cpp
@@ -213,7 +214,7 @@ SET(DeepMimicSRCS
     sim/CtController.cpp
     sim/CtVelController.cpp
     sim/CtPDController.cpp
-    sim/ObjTracer.cpp
+#    sim/ObjTracer.cpp
     sim/SimCapsule.cpp
     sim/GroundPlane.cpp
     sim/AgentRegistry.cpp
@@ -255,10 +256,13 @@ ADD_LIBRARY(LinearMath SHARED IMPORTED)
 SET_PROPERTY(TARGET LinearMath PROPERTY IMPORTED_LOCATION
              ${BULLET_LIBS}/libLinearMath.so)
 
-ADD_LIBRARY(math SHARED IMPORTED)
-SET_PROPERTY(TARGET math PROPERTY IMPORTED_LOCATION
-             ${SYSTEM_LIBS}/libm.so)
-
-TARGET_LINK_LIBRARIES(DeepMimic BulletDynamics BulletCollision LinearMath m)
+ADD_LIBRARY(GLUT STATIC IMPORTED)
+SET_PROPERTY(TARGET GLUT PROPERTY IMPORTED_LOCATION libfreeglut-gles.a)
+FIND_LIBRARY(m NAMES libm.so)
+FIND_LIBRARY(GLESv3 NAMES libGLESv3.so)
+FIND_LIBRARY(EGL NAMES libEGL.so)
+FIND_LIBRARY(GLU NAMES libGLUES_CM.so)
+FIND_LIBRARY(android NAMES libandroid.so)
+TARGET_LINK_LIBRARIES(DeepMimic BulletDynamics BulletCollision LinearMath m GLUT GLU GLESv3 EGL android)
 
 
