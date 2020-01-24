@@ -1,0 +1,89 @@
+apply plugin: 'com.android.library'
+
+buildscript {
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.1'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def ndkDir = properties.getProperty('ndk.dir')
+
+android {
+    compileSdkVersion 26
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        externalNativeBuild
+        {
+            cmake
+            {
+                arguments '-DANDROID_PLATFORM=android-26',
+                          '-DANDROID_TOOLCHAIN=clang',
+			              '-DANDROID_STL=c++_shared',
+                          '-DBULLET_INCLUDES=/home/nola.donato/projects/SXR/sxrsdk/SXR/Extensions/sxr-physics/src/main/jni/bullet3/include',
+                          '-DEIGEN_INCLUDES=/home/nola.donato/projects/eigen-3.3.7',
+                          '-DBULLET_LIBS=/home/nola.donato/projects/SXR/sxrsdk/SXR/Extensions/sxr-physics/src/main/jniLibs',
+                          '-DSYSTEM_LIBS=' + ndkDir + '/platforms/android-26/arch-arm64/usr/lib'
+            }
+        }
+    }
+    buildTypes
+    {
+        debug
+        {
+            debuggable true
+            minifyEnabled false
+            jniDebuggable = true
+            packagingOptions
+            {
+                doNotStrip "**/*/*.so"
+            }
+            externalNativeBuild
+            {
+                cmake
+                {
+                    arguments.add('-DCMAKE_BUILD_TYPE=Debug')
+                }
+            }
+        }
+        release
+        {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            externalNativeBuild
+            {
+                cmake
+                {
+                    arguments.add('-DCMAKE_BUILD_TYPE=Release')
+                }
+            }
+        }
+    }
+    externalNativeBuild
+    {
+        cmake
+        {
+            path 'CMakeLists.txt'
+        }
+    }
+}
+
+dependencies {
+}
