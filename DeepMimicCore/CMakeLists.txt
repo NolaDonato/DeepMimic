@@ -9,7 +9,7 @@ INCLUDE_DIRECTORIES("${EIGEN_DIR}")
 
 
 SET(DeepMimicHDRS
-DeepMimicCore.h
+    DeepMimicCore.h
     anim/Shape.h
     anim/KinCharacter.h
     anim/Character.h
@@ -39,7 +39,27 @@ DeepMimicCore.h
     util/JsonUtil.h
     util/IndexBuffer.h
     util/CircularBuffer.h
-    DeepMimicCore.h
+    render/Camera.h
+    render/DrawCharacter.h
+    render/DrawGround.h
+    render/DrawKinTree.h
+    render/DrawMesh.h
+    render/DrawObj.h
+    render/DrawPerturb.h
+    render/DrawSimCharacter.h
+    render/DrawUtil.h
+    render/DrawWorld.h
+    render/GraphUtil.h
+    render/IBuffer.h
+    render/MatrixStack.h
+    render/MeshUtil.h
+    render/OBJLoader.h
+    render/RenderState.h
+    render/Shader.h
+    render/ShadowMap.h
+    render/TextureDesc.h
+    render/TextureUtil.h
+    render/VertexBuffer.h
     scenes/SceneBuilder.h
     scenes/SceneKinChar.h
     scenes/RLScene.h
@@ -172,6 +192,7 @@ DeepMimicCore.h
     sim/RBDModel.h)
 
 SET(DeepMimicSRCS
+    ${CMAKE_SOURCE_DIR}/src/main/jni/glew.c
     DeepMimicCore.cpp
     anim/Shape.cpp
     anim/KinTree.cpp
@@ -192,14 +213,33 @@ SET(DeepMimicSRCS
     util/MathUtil.cpp
     util/IndexManager.cpp
     util/Trajectory.cpp
-#    scenes/DrawSceneSimChar.cpp
+    render/Camera.cpp
+    render/DrawCharacter.cpp
+    render/DrawGround.cpp
+    render/DrawKinTree.cpp
+    render/DrawMesh.cpp
+    render/DrawObj.cpp
+    render/DrawPerturb.cpp
+    render/DrawSimCharacter.cpp
+    render/DrawUtil.cpp
+    render/DrawWorld.cpp
+    render/GraphUtil.cpp
+    render/IBuffer.cpp
+    render/MatrixStack.cpp
+    render/MeshUtil.cpp
+    render/Shader.cpp
+    render/ShadowMap.cpp
+    render/TextureDesc.cpp
+    render/TextureUtil.cpp
+    render/VertexBuffer.cpp
+    scenes/DrawSceneSimChar.cpp
     scenes/SceneKinChar.cpp
     scenes/RLScene.cpp
-#    scenes/DrawSceneImitate.cpp
-#    scenes/DrawSceneKinChar.cpp
-#    scenes/DrawRLScene.cpp
+    scenes/DrawSceneImitate.cpp
+    scenes/DrawSceneKinChar.cpp
+    scenes/DrawRLScene.cpp
     scenes/Scene.cpp
-#    scenes/DrawScene.cpp
+    scenes/DrawScene.cpp
     scenes/SceneSimChar.cpp
     scenes/SceneBuilder.cpp
     scenes/SceneImitate.cpp
@@ -214,7 +254,7 @@ SET(DeepMimicSRCS
     sim/CtController.cpp
     sim/CtVelController.cpp
     sim/CtPDController.cpp
-#    sim/ObjTracer.cpp
+    sim/ObjTracer.cpp
     sim/SimCapsule.cpp
     sim/GroundPlane.cpp
     sim/AgentRegistry.cpp
@@ -257,7 +297,8 @@ SET_PROPERTY(TARGET LinearMath PROPERTY IMPORTED_LOCATION
              ${BULLET_LIBS}/libLinearMath.so)
 
 ADD_LIBRARY(GLUT STATIC IMPORTED)
-SET_PROPERTY(TARGET GLUT PROPERTY IMPORTED_LOCATION libfreeglut-gles.a)
+SET_PROPERTY(TARGET GLUT PROPERTY IMPORTED_LOCATION ${EXTERNAL_LIBS}/libfreeglut-gles.so)
+
 FIND_LIBRARY(m NAMES libm.so)
 FIND_LIBRARY(GLESv3 NAMES libGLESv3.so)
 FIND_LIBRARY(EGL NAMES libEGL.so)

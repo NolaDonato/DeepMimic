@@ -2,14 +2,16 @@ cmake_minimum_required(VERSION 3.6)
 if(COMMAND cmake_policy)
     cmake_policy(SET CMP0003 NEW)
 endif(COMMAND cmake_policy)
+
 PROJECT(deepmimic C CXX)
+
 string(TOLOWER ${CMAKE_BUILD_TYPE} buildType)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/libs/${buildType}/${ANDROID_ABI}")
 set(BULLET_LIBS "${BULLET_LIBS}/${ANDROID_ABI}")
-set(BULLET_INCLUDES "${BULLET_INCLUDES}")
-set(EIGEN_DIR "${EIGEN_DIR}")
 INCLUDE_DIRECTORIES("includes")
-LINK_DIRECTORIES("external_libs")
-
+set(EXTERNAL_LIBS "${CMAKE_SOURCE_DIR}/external_libs/${buildType}/${ANDROID_ABI}")
+FIND_LIBRARY(GLESv3 NAMES libGLESv3.so)
+ADD_DEFINITIONS(-DGLEW_OPENGLES_LIB_PATH="${GLESv3}")
+LINK_DIRECTORIES(${EXTERNAL_LIBS})
 SUBDIRS(../../DeepMimicCore)
 

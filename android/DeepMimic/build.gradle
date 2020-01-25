@@ -19,7 +19,10 @@ allprojects {
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def ndkDir = properties.getProperty('ndk.dir')
+def NDK_DIR = properties.getProperty('ndk.dir')
+def EIGEN_DIR = properties.getProperty('EIGEN_DIR')
+def BULLET_INCLUDES = properties.getProperty('BULLET_INCLUDES')
+def BULLET_LIBS = properties.getProperty('BULLET_LIBS')
 
 android {
     compileSdkVersion 26
@@ -34,13 +37,23 @@ android {
         {
             cmake
             {
+                cFlags  '-DFREEGLUT_GLES=1',
+                        '-DANDROID=1',
+                        '-DGLEW_USE_LIB_ES=1'
+
+                cppFlags '-Wno-int-to-void-pointer-cast',
+                         '-DFREEGLUT_GLES=1',
+                         '-DANDROID=1',
+                         '-DGLEW_USE_LIB_ES=1'
+
+
                 arguments '-DANDROID_PLATFORM=android-26',
                           '-DANDROID_TOOLCHAIN=clang',
 			              '-DANDROID_STL=c++_shared',
-                          '-DBULLET_INCLUDES=/home/nola.donato/projects/SXR/sxrsdk/SXR/Extensions/sxr-physics/src/main/jni/bullet3/include',
-                          '-DEIGEN_INCLUDES=/home/nola.donato/projects/eigen-3.3.7',
-                          '-DBULLET_LIBS=/home/nola.donato/projects/SXR/sxrsdk/SXR/Extensions/sxr-physics/src/main/jniLibs',
-                          '-DSYSTEM_LIBS=' + ndkDir + '/platforms/android-26/arch-arm64/usr/lib'
+                          '-DBULLET_INCLUDES=' + BULLET_INCLUDES,
+                          '-DEIGEN_DIR=' + EIGEN_DIR,
+                          '-DBULLET_LIBS=' + BULLET_LIBS,
+                          '-DANDROID_NDK=' + NDK_DIR
             }
         }
     }

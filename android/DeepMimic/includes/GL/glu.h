@@ -50,6 +50,11 @@
    #else
       #define GLAPI __declspec(dllimport)
    #endif
+#elif defined(ANDROID)
+#include <GLES3/gl32.h>
+#undef APIENTRY
+#define APIENTRY
+
 #else
    #error "Platform is unsupported"
 #endif
